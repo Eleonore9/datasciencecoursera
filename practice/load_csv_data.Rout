@@ -1,0 +1,73 @@
+
+R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
+Copyright (C) 2013 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> ## Data from disasters in 2014:
+> 
+> d <- read.csv("disaster_2014.csv")
+> 
+> head(d)
+  disaster.subgroup disaster.subtype Country.iso Country.name occurrence
+1        Biological               --         NER        Niger          1
+2        Biological Bacterial diseas         CMR     Cameroon          1
+3        Biological Bacterial diseas         GHA        Ghana          1
+4        Biological Bacterial diseas         NER        Niger          1
+5        Biological Bacterial diseas         NGA      Nigeria          1
+6        Biological Bacterial diseas         SSD  South Sudan          2
+  Total.deaths Affected Injured Homeless Total.affected Total.damage
+1           12        5       0        0              5            0
+2           77     1680       0        0           1680            0
+3          214    26858       0        0          26858            0
+4            8        0     183        0            183            0
+5          178    12223       0        0          12223            0
+6          149     5900     586        0           6486            0
+> 
+> ## Countries for disasters with > 100,000 people affected:
+> a <- d$Total.affected > 100000
+> d[a, "Country.name"]
+ [1] Burkina Faso        China P Rep         Guatemala          
+ [4] Honduras            Kenya               Malaysia           
+ [7] Somalia             Sri Lanka           Indonesia          
+[10] Chile               China P Rep         China P Rep        
+[13] Iran Islam Rep      Afghanistan         China P Rep        
+[16] Bolivia             Nepal               Bangladesh         
+[19] Bosnia-Hercegovenia Brazil              China P Rep        
+[22] India               Indonesia           Malaysia           
+[25] Mozambique          Niger               Pakistan           
+[28] Paraguay            Serbia              Sri Lanka          
+[31] Sudan               Thailand            Thailand           
+[34] China P Rep         Morocco             China P Rep        
+[37] India               Philippines        
+104 Levels: Afghanistan Algeria Argentina Australia Bangladesh ... Zimbabwe
+> 
+> ## Average and max of people affected:
+> aff <- d$Total.affected
+> mean(aff)
+[1] 541402.1
+> max(aff)
+[1] 27500000
+> 
+> d[d$Total.affected == max(aff), "Country.name"]
+[1] China P Rep
+104 Levels: Afghanistan Algeria Argentina Australia Bangladesh ... Zimbabwe
+> 
+> proc.time()
+   user  system elapsed 
+  0.185   0.014   0.190 
