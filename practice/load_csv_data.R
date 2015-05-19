@@ -1,16 +1,26 @@
-## Data from disasters in 2014:
+## Data from disasters that occured in 2014:
 
-d <- read.csv("disaster_2014.csv")
+setwd("/home/eleonore/Documents/PERSONAL_PROJECTS/coursera_ds/practice/")
 
-head(d)
+csv_file <- "disaster_2014.csv"
+f <- paste(getwd(), csv_file, sep="/")
+disaster_data <- read.csv(f)
 
-## Countries for disasters with > 100,000 people affected:
-a <- d$Total.affected > 100000
-d[a, "Country.name"]
 
-## Average and max of people affected:
-aff <- d$Total.affected
-mean(aff)
-max(aff)
+summary_disaster <- function(df){
+  Total <- apply(df[, c("occurrence", "Total.deaths", "Injured", "Homeless", "Total.affected", "Total.damage")], 2, sum)
+  Average <- apply(df[, c("occurrence", "Total.deaths", "Injured", "Homeless", "Total.affected", "Total.damage")], 2, mean)
+  Max <- apply(df[, c("occurrence", "Total.deaths", "Injured", "Homeless", "Total.affected", "Total.damage")], 2, max)
+  Min <- apply(df[, c("occurrence", "Total.deaths", "Injured", "Homeless", "Total.affected", "Total.damage")], 2, min)
+  
+  return(data.frame(Total, Average, Max, Min))
+}
 
-d[d$Total.affected == max(aff), "Country.name"]
+summary_disaster(disaster_data)
+
+num_affected <- function(df, threshold){ 
+  affec <- df$Total.affected > threshold
+  return(df[affec, c("Country.name", "disaster.subtype")])
+}
+
+num_affected(disaster_data, 100000)
